@@ -44,11 +44,11 @@ out/depth_to_xyz.wasm: out src/depth_to_xyz.cpp build/sod.wasm.o
 
 .PHONY: run
 run: out/depth_to_xyz
-	cat ./images_whiteboard/0_rgb.png ./images_whiteboard/0_depth.png | ./out/depth_to_xyz 3011515 620608 > ./out/native.png
+	cat ./images_whiteboard/0_depth.png | ./out/depth_to_xyz > ./out/native.png
 
 .PHONY: run-wasm
 run-wasm: out/depth_to_xyz.wasm
-	cat ./images_whiteboard/0_rgb.png ./images_whiteboard/0_depth.png | wasmtime ./out/depth_to_xyz.wasm 3011515 620608 > ./out/wasm.png
+	cat ./images_whiteboard/0_depth.png | wasmtime ./out/depth_to_xyz.wasm > ./out/wasm.png
 
 .PHONY: clean
 clean:
