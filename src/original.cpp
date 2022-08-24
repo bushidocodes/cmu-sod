@@ -16,7 +16,7 @@ int main()
     //
     // file names are in the form: n_rgb.png/n_depth.png, where n represents
     // synchronized frame number
-    sod_img depth = sod_img_load_from_depth_file("../images_whiteboard/0_depth.png", 1);
+    sod_img depth = sod_img_load_from_depth_file("./images_whiteboard/0_depth.png", 1);
 
     /*
     The following code is task of the server function

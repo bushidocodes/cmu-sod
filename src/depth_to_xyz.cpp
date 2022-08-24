@@ -22,7 +22,7 @@ int main(int argc, char **argv)
 	std::vector<uint8_t> image_buf{it, end};
 
 	// load into an sod_img
-	sod_img depth = sod_img_load_from_mem((const unsigned char *)image_buf.data(), image_buf.size(), 1);
+	sod_img depth = sod_depth_img_load_from_mem((const unsigned char *)image_buf.data(), image_buf.size(), 1);
 	// std::cerr << "depth " << depth.w << "x" << depth.h << "x" << depth.c << std::endl;
 
 	// xyz_image stores the output image, two 1080p image horizontally stitched side by side
