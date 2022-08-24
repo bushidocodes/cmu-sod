@@ -36,8 +36,14 @@ build/sod.o: build sod_release_118/sod.c
 build/sod.wasm.o: build sod_release_118/sod.c
 	${WASMCC} ${WASMCFLAGS} -D_WASI_EMULATED_MMAN -o $@ -c sod_release_118/sod.c
 
+out/original: out src/original.cpp build/sod.o
+	clang++ ${CFLAGS} -fpermissive -o $@ src/original.cpp build/sod.o -Isod_release_118
+
 out/depth_to_xyz: out src/depth_to_xyz.cpp build/sod.o
 	clang++ ${CFLAGS} -fpermissive -o $@ src/depth_to_xyz.cpp build/sod.o -Isod_release_118
+
+out/original.wasm: out src/original.cpp build/sod.wasm.o
+	${WASMCPP} ${WASMCFLAGS} -D_WASI_EMULATED_MMAN -o $@ src/original.cpp build/sod.wasm.o -Isod_release_118 -lwasi-emulated-mman
 
 out/depth_to_xyz.wasm: out src/depth_to_xyz.cpp build/sod.wasm.o
 	${WASMCPP} ${WASMCFLAGS} -D_WASI_EMULATED_MMAN -o $@ src/depth_to_xyz.cpp build/sod.wasm.o -Isod_release_118 -lwasi-emulated-mman
@@ -46,10 +52,18 @@ out/depth_to_xyz.wasm: out src/depth_to_xyz.cpp build/sod.wasm.o
 run: out/depth_to_xyz
 	cat ./images_whiteboard/0_depth.png | ./out/depth_to_xyz > ./out/native.png
 
+.PHONY: run-original
+run-original: out/original
+	./out/original
+
 .PHONY: run-wasm
 run-wasm: out/depth_to_xyz.wasm
 	cat ./images_whiteboard/0_depth.png | wasmtime ./out/depth_to_xyz.wasm > ./out/wasm.png
 
+.PHONY: run-original-wasm
+run-original-wasm: out/original.wasm
+	 wasmtime --dir=. ./out/original.wasm 
+
 .PHONY: clean
 clean:
-	rm -f out/depth_to_xyz out/depth_to_xyz.wasm out/res.png build/sod.wasm.o build/sod.o
+	rm -f out/*
