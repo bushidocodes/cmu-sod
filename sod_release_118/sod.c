@@ -13579,6 +13579,32 @@ sod_img sod_img_load_from_mem(const unsigned char * zBuf, int buf_len, int nChan
 	free(data);
 	return im;
 }
+
+sod_img sod_depth_img_load_from_mem(const unsigned char * zBuf, int buf_len, int nChannels)
+{
+	int w, h, c;
+	int i, j, k;
+	unsigned short *data = stbi_load_16_from_memory(zBuf, buf_len, &w, &h, &c, nChannels);
+	if (!data) {
+		return sod_make_empty_image(0, 0, 0);
+	}
+	if (nChannels) c = nChannels;
+	sod_img im = sod_make_image(w, h, c);
+	if (im.data) {
+		for (k = 0; k < c; ++k) {
+			for (j = 0; j < h; ++j) {
+				for (i = 0; i < w; ++i) {
+					int dst_index = i + w * j + w * h*k;
+					int src_index = k + c * i + c * w*j;
+					im.data[dst_index] = (unsigned int)data[src_index];
+				}
+			}
+		}
+	}
+	free(data);
+	return im;
+}
+
 /*
 * CAPIREF: Refer to the official documentation at https://sod.pixlab.io/api.html for the expected parameters this interface takes.
 */
