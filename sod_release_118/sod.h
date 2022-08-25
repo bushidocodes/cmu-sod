@@ -274,6 +274,7 @@ SOD_APIEXPORT void sod_free_image(sod_img m);
 SOD_APIEXPORT sod_img sod_img_load_from_file(const char *zFile, int nChannels);
 SOD_APIEXPORT sod_img sod_img_load_from_depth_file(const char *zFile, int nChannels);
 SOD_APIEXPORT sod_img sod_img_load_from_mem(const unsigned char *zBuf, int buf_len, int nChannels);
+SOD_APIEXPORT sod_img sod_depth_img_load_from_mem(const unsigned char *zBuf, int buf_len, int nChannels);
 SOD_APIEXPORT int  sod_img_set_load_from_directory(const char *zPath, sod_img ** apLoaded, int * pnLoaded, int max_entries);
 SOD_APIEXPORT void sod_img_set_release(sod_img *aLoaded, int nEntries);
 #ifndef SOD_DISABLE_IMG_WRITER
