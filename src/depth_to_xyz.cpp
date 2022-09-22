@@ -36,8 +36,8 @@ int main(int argc, char **argv)
 		for (int16_t u = 0; u < depth.w; u++)
 		{
 			uint16_t z_16 = sod_img_get_pixel(depth, u, v, 0);
-			int16_t x_16 = z_16 * (u - cx) / fx;
-			int16_t y_16 = z_16 * (v - cy) / fy;
+			int16_t x_16 = (z_16 * (u - cx) / fx) + 1000*20;
+			int16_t y_16 = (z_16 * (v - cy) / fy) + 1000*20;
 			uint8_t z_first_8 = z_16 & 0xFF;
 			uint8_t z_second_8 = (z_16 & 0xFF00) >> 8;
 			uint8_t x_first_8 = x_16 & 0xFF;
