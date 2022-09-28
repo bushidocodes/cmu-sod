@@ -66,4 +66,5 @@ run-original-wasm: out/original.wasm
 
 .PHONY: clean
 clean:
-	rm -f out/*
+	rm -rf build
+	rm -rf out
